@@ -4,10 +4,9 @@ print("""
 1. Set a dimension (by default it is {n}
 2. Calculate with random values
     """.format(n=4))
-input()
 import app
 
-print("Result:", app.l.matrix)
+print("Result:\n", app.l.matrix)
 # print("""
 #     1.""")
 

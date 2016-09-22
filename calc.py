@@ -1,5 +1,4 @@
 import numpy as np
-import operations as op
 
 
 class Vector:
@@ -31,33 +30,33 @@ class Matrix:
 
 class YCalculation:
     def y1_calculation(self, A, b, n):
-        self.matrix = np.c_[op.multiplication(A, b), np.zeros((n, n - 1))]
+        self.matrix = np.c_[np.dot(A, b), np.zeros((n, n - 1))]
 
     def y2_calculation(self, A1, b1, c1):
-        self.matrix = op.multiplication(A1, op.addition(b1, c1))
+        self.matrix = np.dot(A1, np.add(b1, c1))
 
     def y3_calculation(self, A2, C2, B2):
-        self.matrix = op.multiplication(A2, op.addition(C2, 2 * B2))
+        self.matrix = np.dot(A2, np.add(C2, 2 * B2))
 
     def yi_trasonse(self, yi):
-        self.matrix = op.transpose(yi)
+        self.matrix = np.transpose(yi)
 
 
 class ZCalculation:
     def z1_calculation(self, trun_y2, trun_y1, y1, y3):  # z1 = y2' * (y1' * y1 * y3)
-        self.matrix = op.multiplication(trun_y2, (op.multiplication(op.multiplication(trun_y1, y1), y3)))
+        self.matrix = np.dot(trun_y2, (np.dot(np.dot(trun_y1, y1), y3)))
 
     def z2_calculation(self, trun_y1, y3):  # z2 = y1' * y3^3)
-        self.matrix = op.multiplication(trun_y1, y3 ** 3)
+        self.matrix = np.dot(trun_y1, y3 ** 3)
 
     def z3_calculation(self, trun_y2, y3):  # z3 = y2' * y3)
-        self.matrix = op.multiplication(trun_y2, y3)
+        self.matrix = np.dot(trun_y2, y3)
 
     def z4_calculation(self, y3, y1):  # z4 = y3 * y1
-        self.matrix = op.multiplication(y3, y1)
+        self.matrix = np.dot(y3, y1)
 
     def z5_calculation(self, trun_y2, y2, y1):  # z5 = y2' * y2 * y1
-        self.matrix = op.multiplication(op.multiplication(trun_y2, y2), y1)
+        self.matrix = np.dot(np.dot(trun_y2, y2), y1)
 
 
 class GCalculation:
