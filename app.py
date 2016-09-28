@@ -1,13 +1,10 @@
 import calc
-import configparser
 from threading import Thread
 
 K1 = 0.0000000000001
 K2 = 0.00001
 
-cfg = configparser.ConfigParser()
-cfg.read('data.ini')
-n = int(cfg.get('DIMENSION', 'N'))
+n = int(input("A dimension of square matrix = "))
 
 # first stage (initialization)
 A = calc.Matrix()
@@ -51,15 +48,6 @@ B2_init.join()
 c1_init.join()
 C2_init.join()
 
-# print("A:\n", A.matrix)
-# print("\nA1:\n", A1.matrix)
-# print("\nA2:\n", A2.matrix)
-# print("\nb:\n", b.matrix)
-# print("\nb1:\n", b1.matrix)
-# print("\nB2:\n", B2.matrix)
-# print("\nc1:\n", c1.matrix)
-# print("\nC2:\n", C2.matrix)
-
 # second stage (yi calculation)
 y1 = calc.YCalculation()  # y1 = A * B
 y1_calc = Thread(target=y1.y1_calculation, args=(A.matrix, b.matrix, n))
@@ -77,10 +65,6 @@ y1_calc.join()
 y2_calc.join()
 y3_calc.join()
 
-# print("\ny1:\n", y1.matrix)
-# print("\ny2:\n", y2.matrix)
-# print("\ny3:\n", y3.matrix)
-
 # third stage (yi transpose)
 tran_y1 = calc.YCalculation()
 tran_y1_calc = Thread(target=tran_y1.yi_trasonse, args=(y1.matrix,))
@@ -93,27 +77,24 @@ tran_y2_calc.start()
 tran_y1_calc.join()
 tran_y2_calc.join()
 
-# print("\ny1':\n", tran_y1.matrix)
-# print("\ny2':\n", tran_y2.matrix)
-
 # fourth stage (zi calculation)
-z1 = calc.ZCalculation()  # y2' * (y1' * y1 * y3)
+z1 = calc.ZCalculation()  # z1 = y2' * (y1' * y1 * y3)
 z1_calc = Thread(target=z1.z1_calculation, args=(tran_y2.matrix, tran_y1.matrix, y1.matrix, y3.matrix))
 z1_calc.start()
 
-z2 = calc.ZCalculation()  # y1' * y3^3)
+z2 = calc.ZCalculation()  # z2 = y1' * y3^3)
 z2_calc = Thread(target=z2.z2_calculation, args=(tran_y1.matrix, y3.matrix))
 z2_calc.start()
 
-z3 = calc.ZCalculation()  # y2' * y3)
+z3 = calc.ZCalculation()  # z3 = y2' * y3)
 z3_calc = Thread(target=z3.z3_calculation, args=(tran_y2.matrix, y3.matrix))
 z3_calc.start()
 
-z4 = calc.ZCalculation()  # y3 * y1
+z4 = calc.ZCalculation()  # z4 = y3 * y1
 z4_calc = Thread(target=z4.z4_calculation, args=(y3.matrix, y1.matrix))
 z4_calc.start()
 
-z5 = calc.ZCalculation()  # y2' * y2 * y1
+z5 = calc.ZCalculation()  # z5 = y2' * y2 * y1
 z5_calc = Thread(target=z5.z5_calculation, args=(tran_y1.matrix, y2.matrix, y1.matrix))
 z5_calc.start()
 
@@ -122,12 +103,6 @@ z2_calc.join()
 z3_calc.join()
 z4_calc.join()
 z5_calc.join()
-
-# print("\nz1:\n", z1.matrix)
-# print("\nz2:\n", z2.matrix)
-# print("\nz3:\n", z3.matrix)
-# print("\nz4:\n", z4.matrix)
-# print("\nz5:\n", z5.matrix)
 
 # fifth stage (gi calculation)
 g1 = calc.GCalculation()  # g1 = z1 + z2 + z3
@@ -141,14 +116,9 @@ g2_calc.start()
 g1_calc.join()
 g2_calc.join()
 
-# print("\ng1:\n", g1.matrix)
-# print("\ng2:\n", g2.matrix)
-
 # sixth stage (last calculation)
 l = calc.LCalculation()  # last calc (L = K1*g1+K2*g2)
 l_calc = Thread(target=l.last_calculation, args=(g1.matrix, g2.matrix, K1, K2))
 l_calc.start()
 
 l_calc.join()
-
-# print("\nlast_part:\n", l.matrix)

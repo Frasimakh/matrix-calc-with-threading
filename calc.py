@@ -2,7 +2,7 @@ import numpy as np
 
 
 class Vector:
-    def set_vector(self, n):  # sets random values of vector vector
+    def set_vector(self, n):  # sets random values of vector
         self.matrix = np.c_[np.random.randint(0, 100, (n, 1)), np.zeros((n, n - 1))]
 
     def b_calculation(self, n):  # b = 10/(i^2 + 1)
