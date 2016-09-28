@@ -1,3 +1,7 @@
+"""
+Main module of application. Provide users' interface.qq
+"""
+
 import app
 
 print("Result:\n", app.l.matrix)

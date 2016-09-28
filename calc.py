@@ -1,4 +1,8 @@
-import numpy as np
+"""
+Description of classes.
+"""
+
+import numpy as np  # extension for matrix calculation
 
 
 class Vector:

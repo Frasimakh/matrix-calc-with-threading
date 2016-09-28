@@ -1,3 +1,7 @@
+"""
+Body of application. Parallel calculation in several threads.
+"""
+
 import calc
 from threading import Thread
 
